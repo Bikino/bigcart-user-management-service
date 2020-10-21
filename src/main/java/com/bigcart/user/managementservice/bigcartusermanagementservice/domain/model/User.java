@@ -1,4 +1,4 @@
-package com.bigcart.user.managementservice.bigcartusermanagementservice.Domain.Model;
+package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

@@ -1,8 +1,8 @@
-package com.bigcart.user.managementservice.bigcartusermanagementservice.Domain.Repository;
+package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.repository;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.bigcart.user.managementservice.bigcartusermanagementservice.Domain.Model.User;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.User;
 
 
 
