@@ -1,12 +1,12 @@
 package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 
 @Entity
-public class Employee {
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
+@DynamicUpdate
+public class Employee extends Person{
 
     private String userName;
 
@@ -17,18 +17,6 @@ public class Employee {
     private boolean isApproved;
 
     private boolean isAdmin;
-
-    @OneToOne
-    @JoinColumn(name="person_id")
-    private Person person;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getUserName() {
         return userName;
@@ -68,13 +56,5 @@ public class Employee {
 
     public void setAdmin(boolean admin) {
         isAdmin = admin;
-    }
-
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
     }
 }

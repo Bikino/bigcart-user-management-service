@@ -1,32 +1,20 @@
 package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.zip.DataFormatException;
 
 @Entity
-public class Buyer {
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
+@DynamicUpdate
+public class Buyer extends Person{
 
     private String userName;
 
     private String password;
 
     private Date dateOfBirth;
-
-    @OneToOne
-    @JoinColumn(name="person_id")
-    private Person person;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getUserName() {
         return userName;
@@ -50,13 +38,5 @@ public class Buyer {
 
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
-    }
-
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
     }
 }

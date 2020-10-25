@@ -1,10 +1,14 @@
 package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
 @Entity // This tells Hibernate to make a table out of this class
+@DynamicUpdate
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Person {
   @Id
   @GeneratedValue(strategy=GenerationType.AUTO)

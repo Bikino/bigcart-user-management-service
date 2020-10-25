@@ -1,8 +1,11 @@
 package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 
 @Entity
+@DynamicUpdate
 public class Address {
 
     @Id
