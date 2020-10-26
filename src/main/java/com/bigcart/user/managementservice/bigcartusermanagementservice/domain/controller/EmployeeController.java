@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,13 +18,18 @@ public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @GetMapping
     public ResponseEntity<List<Employee>> getEmployees() {
         HttpHeaders headers = new HttpHeaders();
         List<Employee> employees = employeeService.getAll();
+
         if (employees == null) {
             return new ResponseEntity<List<Employee>>(HttpStatus.NOT_FOUND);
         }
+
         return new ResponseEntity<List<Employee>>(employees, headers, HttpStatus.OK);
     }
 
@@ -32,7 +38,6 @@ public class EmployeeController {
 
         Employee employee = employeeService.getById(id);
         if (employee == null) {
-
             return new ResponseEntity<Employee>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<Employee>(employee, HttpStatus.OK);
@@ -46,6 +51,7 @@ public class EmployeeController {
         if (employee == null) {
             return new ResponseEntity<Employee>(HttpStatus.BAD_REQUEST);
         }
+        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
         employeeService.add(employee);
 
         return new ResponseEntity<Employee>(employee, headers, HttpStatus.CREATED);
@@ -59,7 +65,6 @@ public class EmployeeController {
         Employee oldEmployee = employeeService.getById(id);
 
         if (oldEmployee == null) {
-
             return new ResponseEntity<Employee>(HttpStatus.NOT_FOUND);
         }
 

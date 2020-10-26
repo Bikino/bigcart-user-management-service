@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +17,9 @@ import java.util.List;
 public class BuyerController {
     @Autowired
     BuyerService buyerService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping
     public ResponseEntity<List<Buyer>> getBuyers() {
@@ -46,6 +50,7 @@ public class BuyerController {
         if (buyer == null) {
             return new ResponseEntity<Buyer>(HttpStatus.BAD_REQUEST);
         }
+        buyer.setPassword(passwordEncoder.encode(buyer.getPassword()));
         buyerService.add(buyer);
 
         return new ResponseEntity<Buyer>(buyer, headers, HttpStatus.CREATED);

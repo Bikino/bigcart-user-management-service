@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +17,9 @@ import java.util.List;
 public class VendorController {
     @Autowired
     VendorService vendorService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping
     public ResponseEntity<List<Vendor>> getVendors() {
@@ -46,6 +50,7 @@ public class VendorController {
         if (vendor == null) {
             return new ResponseEntity<Vendor>(HttpStatus.BAD_REQUEST);
         }
+        vendor.setPassword(passwordEncoder.encode(vendor.getPassword()));
         vendorService.add(vendor);
 
         return new ResponseEntity<Vendor>(vendor, headers, HttpStatus.CREATED);
