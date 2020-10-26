@@ -26,7 +26,7 @@ public class VendorServiceImpl implements VendorService{
     }
 
     @Override
-    public Vendor getById(int id)
+    public Vendor getById(long id)
     {
         Optional<Vendor> temp = vendorRepository.findById(id);
         return temp.isPresent()? temp.get() : null;
@@ -38,7 +38,7 @@ public class VendorServiceImpl implements VendorService{
     }
 
     @Override
-    public Vendor update(int id, Vendor newVendor) throws IllegalAccessException {
+    public Vendor update(long id, Vendor newVendor) throws IllegalAccessException {
 
         Vendor oldVendor = getById(id);
 
@@ -52,7 +52,7 @@ public class VendorServiceImpl implements VendorService{
     }
 
     @Override
-    public boolean deleteById(int id)
+    public boolean deleteById(long id)
     {
         if(getById(id) == null)
             return false;

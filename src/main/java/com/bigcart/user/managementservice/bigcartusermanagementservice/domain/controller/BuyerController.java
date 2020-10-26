@@ -32,7 +32,7 @@ public class BuyerController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Buyer> getBuyer(@PathVariable int id) {
+    public ResponseEntity<Buyer> getBuyer(@PathVariable long id) {
 
         Buyer Buyer = buyerService.getById(id);
         if (Buyer == null) {
@@ -58,7 +58,7 @@ public class BuyerController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Buyer> editBuyer(@PathVariable int id, @RequestBody Buyer buyer) throws IllegalAccessException {
+    public ResponseEntity<Buyer> editBuyer(@PathVariable long id, @RequestBody Buyer buyer) throws IllegalAccessException {
 
         HttpHeaders headers = new HttpHeaders();
         Buyer oldBuyer = buyerService.getById(id);
@@ -74,7 +74,7 @@ public class BuyerController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity deleteBuyer(@PathVariable int id) {
+    public ResponseEntity deleteBuyer(@PathVariable long id) {
 
        return new ResponseEntity( buyerService.deleteById(id)? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }

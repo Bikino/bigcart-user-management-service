@@ -26,7 +26,7 @@ public class GuestServiceImpl implements GuestService{
     }
 
     @Override
-    public Guest getById(int id)
+    public Guest getById(long id)
     {
         Optional<Guest> temp = guestRepository.findById(id);
         return temp.isPresent()? temp.get() : null;
@@ -38,7 +38,7 @@ public class GuestServiceImpl implements GuestService{
     }
 
     @Override
-    public Guest update(int id, Guest newGuest) throws IllegalAccessException {
+    public Guest update(long id, Guest newGuest) throws IllegalAccessException {
 
         Guest oldGuest = getById(id);
 
@@ -52,7 +52,7 @@ public class GuestServiceImpl implements GuestService{
     }
 
     @Override
-    public boolean deleteById(int id)
+    public boolean deleteById(long id)
     {
         if(getById(id) == null)
             return false;

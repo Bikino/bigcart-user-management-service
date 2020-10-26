@@ -26,7 +26,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
-    public Employee getById(int id)
+    public Employee getById(long id)
     {
         Optional<Employee> temp = employeeRepository.findById(id);
         return temp.isPresent()? temp.get() : null;
@@ -38,7 +38,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
-    public Employee update(int id, Employee newEmployee) throws IllegalAccessException {
+    public Employee update(long id, Employee newEmployee) throws IllegalAccessException {
 
         Employee oldEmployee = getById(id);
 
@@ -52,7 +52,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
-    public boolean deleteById(int id)
+    public boolean deleteById(long id)
     {
         if(getById(id) == null)
             return false;

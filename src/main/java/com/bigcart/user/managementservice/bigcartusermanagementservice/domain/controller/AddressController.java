@@ -28,7 +28,7 @@ public class AddressController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Address> getAddress(@PathVariable int id) {
+    public ResponseEntity<Address> getAddress(@PathVariable long id) {
 
         Address Address = AddressService.getById(id);
         if (Address == null) {
@@ -53,7 +53,7 @@ public class AddressController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Address> editAddress(@PathVariable int id, @RequestBody Address address) throws IllegalAccessException {
+    public ResponseEntity<Address> editAddress(@PathVariable long id, @RequestBody Address address) throws IllegalAccessException {
 
         HttpHeaders headers = new HttpHeaders();
         Address oldAddress = AddressService.getById(id);
@@ -69,7 +69,7 @@ public class AddressController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity deleteAddress(@PathVariable int id) {
+    public ResponseEntity deleteAddress(@PathVariable long id) {
 
        return new ResponseEntity( AddressService.deleteById(id)? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }

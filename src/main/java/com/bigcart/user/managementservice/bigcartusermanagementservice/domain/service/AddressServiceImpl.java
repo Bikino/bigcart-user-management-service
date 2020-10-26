@@ -26,7 +26,7 @@ public class AddressServiceImpl implements AddressService{
     }
 
     @Override
-    public Address getById(int id)
+    public Address getById(long id)
     {
         Optional<Address> temp = addressRepository.findById(id);
         return temp.isPresent()? temp.get() : null;
@@ -38,7 +38,7 @@ public class AddressServiceImpl implements AddressService{
     }
 
     @Override
-    public Address update(int id, Address newAddress) throws IllegalAccessException {
+    public Address update(long id, Address newAddress) throws IllegalAccessException {
 
         Address oldAddress = getById(id);
 
@@ -52,7 +52,7 @@ public class AddressServiceImpl implements AddressService{
     }
 
     @Override
-    public boolean deleteById(int id)
+    public boolean deleteById(long id)
     {
         if(getById(id) == null)
             return false;

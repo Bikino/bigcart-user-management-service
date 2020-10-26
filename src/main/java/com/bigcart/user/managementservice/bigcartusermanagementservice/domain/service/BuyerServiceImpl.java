@@ -26,7 +26,7 @@ public class BuyerServiceImpl implements BuyerService{
     }
 
     @Override
-    public Buyer getById(int id)
+    public Buyer getById(long id)
     {
         Optional<Buyer> temp = buyerRepository.findById(id);
         return temp.isPresent()? temp.get() : null;
@@ -38,7 +38,7 @@ public class BuyerServiceImpl implements BuyerService{
     }
 
     @Override
-    public Buyer update(int id, Buyer newBuyer) throws IllegalAccessException {
+    public Buyer update(long id, Buyer newBuyer) throws IllegalAccessException {
 
         Buyer oldBuyer = getById(id);
 
@@ -52,7 +52,7 @@ public class BuyerServiceImpl implements BuyerService{
     }
 
     @Override
-    public boolean deleteById(int id)
+    public boolean deleteById(long id)
     {
         if(getById(id) == null)
             return false;

@@ -10,7 +10,7 @@ public class Address {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
+    private long id;
 
     private String addressLineOne;
 
@@ -30,7 +30,7 @@ public class Address {
     @JoinColumn(name="person_id")
     private Person person;
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 

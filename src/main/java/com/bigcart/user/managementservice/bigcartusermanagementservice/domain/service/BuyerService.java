@@ -8,11 +8,11 @@ public interface BuyerService {
 
     List<Buyer> getAll();
 
-    Buyer getById(int id);
+    Buyer getById(long id);
 
     Buyer add(Buyer Buyer);
 
-    Buyer update(int id, Buyer newBuyer) throws IllegalAccessException;
+    Buyer update(long id, Buyer newBuyer) throws IllegalAccessException;
 
-    boolean deleteById(int id);
+    boolean deleteById(long id);
 }

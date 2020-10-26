@@ -8,11 +8,11 @@ public interface AddressService {
 
     List<Address> getAll();
 
-    Address getById(int id);
+    Address getById(long id);
 
     Address add(Address Address);
 
-    Address update(int id, Address newAddress) throws IllegalAccessException;
+    Address update(long id, Address newAddress) throws IllegalAccessException;
 
-    boolean deleteById(int id);
+    boolean deleteById(long id);
 }

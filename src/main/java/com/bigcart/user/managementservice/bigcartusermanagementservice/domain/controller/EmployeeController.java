@@ -34,7 +34,7 @@ public class EmployeeController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Employee> getEmployee(@PathVariable int id) {
+    public ResponseEntity<Employee> getEmployee(@PathVariable long id) {
 
         Employee employee = employeeService.getById(id);
         if (employee == null) {
@@ -59,7 +59,7 @@ public class EmployeeController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Employee> editEmployee(@PathVariable int id, @RequestBody Employee employee) throws IllegalAccessException {
+    public ResponseEntity<Employee> editEmployee(@PathVariable long id, @RequestBody Employee employee) throws IllegalAccessException {
 
         HttpHeaders headers = new HttpHeaders();
         Employee oldEmployee = employeeService.getById(id);
@@ -74,7 +74,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity deleteEmployee(@PathVariable int id) {
+    public ResponseEntity deleteEmployee(@PathVariable long id) {
 
        return new ResponseEntity( employeeService.deleteById(id)? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }

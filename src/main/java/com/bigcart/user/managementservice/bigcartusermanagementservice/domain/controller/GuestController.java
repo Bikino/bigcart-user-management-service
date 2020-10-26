@@ -28,7 +28,7 @@ public class GuestController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Guest> getGuest(@PathVariable int id) {
+    public ResponseEntity<Guest> getGuest(@PathVariable long id) {
 
         Guest Guest = guestService.getById(id);
         if (Guest == null) {
@@ -53,7 +53,7 @@ public class GuestController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Guest> editGuest(@PathVariable int id, @RequestBody Guest guest) throws IllegalAccessException {
+    public ResponseEntity<Guest> editGuest(@PathVariable long id, @RequestBody Guest guest) throws IllegalAccessException {
 
         HttpHeaders headers = new HttpHeaders();
         Guest oldGuest = guestService.getById(id);
@@ -69,7 +69,7 @@ public class GuestController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity deleteGuest(@PathVariable int id) {
+    public ResponseEntity deleteGuest(@PathVariable long id) {
 
        return new ResponseEntity( guestService.deleteById(id)? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }

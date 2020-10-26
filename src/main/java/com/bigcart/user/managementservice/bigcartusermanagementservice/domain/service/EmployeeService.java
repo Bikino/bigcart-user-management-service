@@ -8,11 +8,11 @@ public interface EmployeeService {
 
     List<Employee> getAll();
 
-    Employee getById(int id);
+    Employee getById(long id);
 
     Employee add(Employee employee);
 
-    Employee update(int id, Employee newEmployee) throws IllegalAccessException;
+    Employee update(long id, Employee newEmployee) throws IllegalAccessException;
 
-    boolean deleteById(int id);
+    boolean deleteById(long id);
 }

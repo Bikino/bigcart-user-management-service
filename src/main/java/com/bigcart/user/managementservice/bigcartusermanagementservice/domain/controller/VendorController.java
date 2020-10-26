@@ -32,7 +32,7 @@ public class VendorController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Vendor> getVendor(@PathVariable int id) {
+    public ResponseEntity<Vendor> getVendor(@PathVariable long id) {
 
         Vendor Vendor = vendorService.getById(id);
         if (Vendor == null) {
@@ -58,7 +58,7 @@ public class VendorController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Vendor> editVendor(@PathVariable int id, @RequestBody Vendor vendor) throws IllegalAccessException {
+    public ResponseEntity<Vendor> editVendor(@PathVariable long id, @RequestBody Vendor vendor) throws IllegalAccessException {
 
         HttpHeaders headers = new HttpHeaders();
         Vendor oldVendor = vendorService.getById(id);
@@ -74,7 +74,7 @@ public class VendorController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity deleteVendor(@PathVariable int id) {
+    public ResponseEntity deleteVendor(@PathVariable long id) {
 
        return new ResponseEntity( vendorService.deleteById(id)? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }

@@ -8,11 +8,11 @@ public interface VendorService {
 
     List<Vendor> getAll();
 
-    Vendor getById(int id);
+    Vendor getById(long id);
 
     Vendor add(Vendor Vendor);
 
-    Vendor update(int id, Vendor newVendor) throws IllegalAccessException;
+    Vendor update(long id, Vendor newVendor) throws IllegalAccessException;
 
-    boolean deleteById(int id);
+    boolean deleteById(long id);
 }

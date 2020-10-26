@@ -12,7 +12,7 @@ import java.util.Set;
 public class Person {
   @Id
   @GeneratedValue(strategy=GenerationType.AUTO)
-  private Integer id;
+  private long id;
 
   private String firstName;
 
@@ -28,7 +28,7 @@ public class Person {
   @OneToMany(mappedBy="person")
   private Set<Address> addresses;
 
-  public Integer getId() {
+  public long getId() {
     return id;
   }
 
