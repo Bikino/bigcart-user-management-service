@@ -17,7 +17,7 @@ public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
 
-    @GetMapping(value = "/")
+    @GetMapping
     public ResponseEntity<List<Employee>> getEmployees() {
         HttpHeaders headers = new HttpHeaders();
         List<Employee> employees = employeeService.getAll();
@@ -38,7 +38,7 @@ public class EmployeeController {
         return new ResponseEntity<Employee>(employee, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/")
+    @PostMapping
     public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
 
         HttpHeaders headers = new HttpHeaders();
@@ -71,6 +71,6 @@ public class EmployeeController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity deleteEmployee(@PathVariable int id) {
 
-       return new ResponseEntity( employeeService.deleteById(id)? HttpStatus.OK : HttpStatus.BAD_REQUEST);
+       return new ResponseEntity( employeeService.deleteById(id)? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 }

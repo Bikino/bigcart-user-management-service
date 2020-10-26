@@ -17,7 +17,7 @@ public class BuyerController {
     @Autowired
     BuyerService buyerService;
 
-    @GetMapping(value = "/")
+    @GetMapping
     public ResponseEntity<List<Buyer>> getBuyers() {
         HttpHeaders headers = new HttpHeaders();
         List<Buyer> Buyers = buyerService.getAll();
@@ -38,7 +38,7 @@ public class BuyerController {
         return new ResponseEntity<Buyer>(Buyer, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/")
+    @PostMapping
     public ResponseEntity<Buyer> addBuyer(@RequestBody Buyer buyer) {
 
         HttpHeaders headers = new HttpHeaders();
@@ -71,6 +71,6 @@ public class BuyerController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity deleteBuyer(@PathVariable int id) {
 
-       return new ResponseEntity( buyerService.deleteById(id)? HttpStatus.OK : HttpStatus.BAD_REQUEST);
+       return new ResponseEntity( buyerService.deleteById(id)? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 }

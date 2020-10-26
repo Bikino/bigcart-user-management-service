@@ -17,7 +17,7 @@ public class AddressController {
     @Autowired
     AddressService AddressService;
 
-    @GetMapping(value = "/")
+    @GetMapping
     public ResponseEntity<List<Address>> getAddresss() {
         HttpHeaders headers = new HttpHeaders();
         List<Address> Addresss = AddressService.getAll();
@@ -38,7 +38,7 @@ public class AddressController {
         return new ResponseEntity<Address>(Address, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/")
+    @PostMapping
     public ResponseEntity<Address> addAddress(@RequestBody Address address) {
 
         HttpHeaders headers = new HttpHeaders();
@@ -71,6 +71,6 @@ public class AddressController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity deleteAddress(@PathVariable int id) {
 
-       return new ResponseEntity( AddressService.deleteById(id)? HttpStatus.OK : HttpStatus.BAD_REQUEST);
+       return new ResponseEntity( AddressService.deleteById(id)? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 }

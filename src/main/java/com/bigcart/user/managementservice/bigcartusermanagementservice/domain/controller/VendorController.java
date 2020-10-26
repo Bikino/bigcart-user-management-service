@@ -17,7 +17,7 @@ public class VendorController {
     @Autowired
     VendorService vendorService;
 
-    @GetMapping(value = "/")
+    @GetMapping
     public ResponseEntity<List<Vendor>> getVendors() {
         HttpHeaders headers = new HttpHeaders();
         List<Vendor> Vendors = vendorService.getAll();
@@ -38,7 +38,7 @@ public class VendorController {
         return new ResponseEntity<Vendor>(Vendor, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/")
+    @PostMapping
     public ResponseEntity<Vendor> addVendor(@RequestBody Vendor vendor) {
 
         HttpHeaders headers = new HttpHeaders();
@@ -71,6 +71,6 @@ public class VendorController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity deleteVendor(@PathVariable int id) {
 
-       return new ResponseEntity( vendorService.deleteById(id)? HttpStatus.OK : HttpStatus.BAD_REQUEST);
+       return new ResponseEntity( vendorService.deleteById(id)? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 }

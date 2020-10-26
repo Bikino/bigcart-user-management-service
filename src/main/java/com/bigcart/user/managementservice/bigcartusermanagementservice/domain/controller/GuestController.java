@@ -17,7 +17,7 @@ public class GuestController {
     @Autowired
     GuestService guestService;
 
-    @GetMapping(value = "/")
+    @GetMapping
     public ResponseEntity<List<Guest>> getGuests() {
         HttpHeaders headers = new HttpHeaders();
         List<Guest> Guests = guestService.getAll();
@@ -38,7 +38,7 @@ public class GuestController {
         return new ResponseEntity<Guest>(Guest, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/")
+    @PostMapping
     public ResponseEntity<Guest> addGuest(@RequestBody Guest guest) {
 
         HttpHeaders headers = new HttpHeaders();
@@ -71,6 +71,6 @@ public class GuestController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity deleteGuest(@PathVariable int id) {
 
-       return new ResponseEntity( guestService.deleteById(id)? HttpStatus.OK : HttpStatus.BAD_REQUEST);
+       return new ResponseEntity( guestService.deleteById(id)? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 }
