@@ -19,6 +19,8 @@ public class Employee extends Person{
 
     private boolean isAdmin;
 
+    private double salary;
+
     public String getUserName() {
         return userName;
     }
@@ -58,4 +60,8 @@ public class Employee extends Person{
     public void setAdmin(boolean admin) {
         isAdmin = admin;
     }
+
+    public double getSalary() { return salary; }
+
+    public void setSalary(double salary) { this.salary = salary; }
 }
