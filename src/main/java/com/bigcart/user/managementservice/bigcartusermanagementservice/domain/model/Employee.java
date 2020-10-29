@@ -8,6 +8,7 @@ import javax.persistence.*;
 @DynamicUpdate
 public class Employee extends Person{
 
+    @Column(unique = true)
     private String userName;
 
     private String password;

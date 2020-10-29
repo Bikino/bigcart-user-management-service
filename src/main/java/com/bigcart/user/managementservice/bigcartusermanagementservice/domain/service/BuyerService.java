@@ -15,4 +15,6 @@ public interface BuyerService {
     Buyer update(long id, Buyer newBuyer) throws IllegalAccessException;
 
     boolean deleteById(long id);
+
+    Buyer login(String userName, String password);
 }

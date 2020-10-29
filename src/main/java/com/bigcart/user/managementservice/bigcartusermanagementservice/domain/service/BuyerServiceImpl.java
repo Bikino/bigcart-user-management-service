@@ -1,8 +1,10 @@
 package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.service;
 
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Buyer;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Employee;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.repository.BuyerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
@@ -15,6 +17,9 @@ public class BuyerServiceImpl implements BuyerService{
 
     @Autowired
     private BuyerRepository buyerRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<Buyer> getAll(){
@@ -33,8 +38,10 @@ public class BuyerServiceImpl implements BuyerService{
     }
 
     @Override
-    public Buyer add(Buyer Buyer) {
-        return buyerRepository.save(Buyer);
+    public Buyer add(Buyer buyer) {
+        buyer.setUserName(buyer.getUserName().toLowerCase());
+        buyer.setPassword(passwordEncoder.encode(buyer.getPassword()));
+        return buyerRepository.save(buyer);
     }
 
     @Override
@@ -60,6 +67,15 @@ public class BuyerServiceImpl implements BuyerService{
         return true;
     }
 
+    @Override
+    public Buyer login(String userName, String password) {
+        Buyer buyer = buyerRepository.findByUserName(userName.toLowerCase());
+        if(buyer == null)
+            return null;
+        if(passwordEncoder.matches(password, buyer.getPassword()))
+            return buyer;
+        return null;
+    }
 
 
 }

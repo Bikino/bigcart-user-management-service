@@ -10,6 +10,7 @@ import java.util.zip.DataFormatException;
 @DynamicUpdate
 public class Buyer extends Person{
 
+    @Column(unique = true)
     private String userName;
 
     private String password;

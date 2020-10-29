@@ -9,6 +9,7 @@ import java.util.Date;
 @DynamicUpdate
 public class Vendor extends Person{
 
+    @Column(unique = true)
     private String userName;
 
     private String password;

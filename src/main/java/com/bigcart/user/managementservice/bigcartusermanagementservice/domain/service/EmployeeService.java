@@ -15,4 +15,6 @@ public interface EmployeeService {
     Employee update(long id, Employee newEmployee) throws IllegalAccessException;
 
     boolean deleteById(long id);
+
+    Employee login(String userName, String password);
 }

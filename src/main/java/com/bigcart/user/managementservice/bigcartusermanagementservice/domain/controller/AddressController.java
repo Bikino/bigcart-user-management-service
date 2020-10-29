@@ -20,11 +20,11 @@ public class AddressController {
     @GetMapping
     public ResponseEntity<List<Address>> getAddresss() {
         HttpHeaders headers = new HttpHeaders();
-        List<Address> Addresss = AddressService.getAll();
-        if (Addresss == null) {
+        List<Address> addresses = AddressService.getAll();
+        if (addresses == null) {
             return new ResponseEntity<List<Address>>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<List<Address>>(Addresss, headers, HttpStatus.OK);
+        return new ResponseEntity<List<Address>>(addresses, headers, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")

@@ -20,22 +20,22 @@ public class GuestController {
     @GetMapping
     public ResponseEntity<List<Guest>> getGuests() {
         HttpHeaders headers = new HttpHeaders();
-        List<Guest> Guests = guestService.getAll();
-        if (Guests == null) {
+        List<Guest> guests = guestService.getAll();
+        if (guests == null) {
             return new ResponseEntity<List<Guest>>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<List<Guest>>(Guests, headers, HttpStatus.OK);
+        return new ResponseEntity<List<Guest>>(guests, headers, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Guest> getGuest(@PathVariable long id) {
 
-        Guest Guest = guestService.getById(id);
-        if (Guest == null) {
+        Guest guest = guestService.getById(id);
+        if (guest == null) {
 
             return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<Guest>(Guest, HttpStatus.OK);
+        return new ResponseEntity<Guest>(guest, HttpStatus.OK);
     }
 
     @PostMapping

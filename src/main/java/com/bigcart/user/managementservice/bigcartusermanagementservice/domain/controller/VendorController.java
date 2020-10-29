@@ -1,8 +1,10 @@
 package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.controller;
 
 
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.dto.VendorDTO;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Vendor;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.service.VendorService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -18,59 +21,60 @@ public class VendorController {
     @Autowired
     VendorService vendorService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
+
+    ModelMapper modelMapper = new ModelMapper();
     @GetMapping
-    public ResponseEntity<List<Vendor>> getVendors() {
+    public ResponseEntity<List<VendorDTO>> getVendors() {
         HttpHeaders headers = new HttpHeaders();
-        List<Vendor> Vendors = vendorService.getAll();
-        if (Vendors == null) {
-            return new ResponseEntity<List<Vendor>>(HttpStatus.NOT_FOUND);
+        List<Vendor> vendors = vendorService.getAll();
+        if (vendors == null) {
+            return new ResponseEntity<List<VendorDTO>>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<List<Vendor>>(Vendors, headers, HttpStatus.OK);
+        List<VendorDTO> res = new ArrayList<>();
+        vendors.forEach(x-> res.add(modelMapper.map(x, VendorDTO.class)));
+        return new ResponseEntity<List<VendorDTO>>(res, headers, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Vendor> getVendor(@PathVariable long id) {
+    public ResponseEntity<VendorDTO> getVendor(@PathVariable long id) {
 
-        Vendor Vendor = vendorService.getById(id);
-        if (Vendor == null) {
+        Vendor vendor = vendorService.getById(id);
+        if (vendor == null) {
 
-            return new ResponseEntity<Vendor>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<VendorDTO>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<Vendor>(Vendor, HttpStatus.OK);
+        return new ResponseEntity<VendorDTO>(modelMapper.map(vendor, VendorDTO.class), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Vendor> addVendor(@RequestBody Vendor vendor) {
+    public ResponseEntity<VendorDTO> addVendor(@RequestBody Vendor vendor) {
 
         HttpHeaders headers = new HttpHeaders();
 
         if (vendor == null) {
-            return new ResponseEntity<Vendor>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<VendorDTO>(HttpStatus.BAD_REQUEST);
         }
-        vendor.setPassword(passwordEncoder.encode(vendor.getPassword()));
         vendorService.add(vendor);
 
-        return new ResponseEntity<Vendor>(vendor, headers, HttpStatus.CREATED);
+        return new ResponseEntity<VendorDTO>(modelMapper.map(vendor, VendorDTO.class), headers, HttpStatus.CREATED);
 
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Vendor> editVendor(@PathVariable long id, @RequestBody Vendor vendor) throws IllegalAccessException {
+    public ResponseEntity<VendorDTO> editVendor(@PathVariable long id, @RequestBody VendorDTO vendorDTO) throws IllegalAccessException {
 
         HttpHeaders headers = new HttpHeaders();
         Vendor oldVendor = vendorService.getById(id);
 
         if (oldVendor == null) {
 
-            return new ResponseEntity<Vendor>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<VendorDTO>(HttpStatus.NOT_FOUND);
         }
 
-        Vendor updatedVendor = vendorService.update(id, vendor);
+        Vendor updatedVendor = vendorService.update(id, modelMapper.map(vendorDTO, Vendor.class));
 
-        return new ResponseEntity<Vendor>(updatedVendor, headers, HttpStatus.OK);
+        return new ResponseEntity<VendorDTO>(modelMapper.map(updatedVendor, VendorDTO.class), headers, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")

@@ -3,6 +3,7 @@ package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.s
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Employee;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.lang.reflect.*;
 
@@ -15,6 +16,9 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<Employee> getAll(){
@@ -34,6 +38,8 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Override
     public Employee add(Employee employee) {
+        employee.setUserName(employee.getUserName().toLowerCase());
+        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
         return employeeRepository.save(employee);
     }
 
@@ -60,6 +66,13 @@ public class EmployeeServiceImpl implements EmployeeService{
         return true;
     }
 
-
-
+    @Override
+    public Employee login(String userName, String password) {
+        Employee emp = employeeRepository.findByUserName(userName.toLowerCase());
+        if(emp == null)
+            return null;
+        if(passwordEncoder.matches(password, emp.getPassword()))
+            return emp;
+        return null;
+    }
 }

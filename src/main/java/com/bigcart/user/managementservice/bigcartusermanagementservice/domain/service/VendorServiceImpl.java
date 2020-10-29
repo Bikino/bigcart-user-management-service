@@ -1,8 +1,10 @@
 package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.service;
 
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Buyer;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Vendor;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.repository.VendorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
@@ -15,6 +17,9 @@ public class VendorServiceImpl implements VendorService{
 
     @Autowired
     private VendorRepository vendorRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<Vendor> getAll(){
@@ -34,6 +39,8 @@ public class VendorServiceImpl implements VendorService{
 
     @Override
     public Vendor add(Vendor vendor) {
+        vendor.setUserName(vendor.getUserName().toLowerCase());
+        vendor.setPassword(passwordEncoder.encode(vendor.getPassword()));
         return vendorRepository.save(vendor);
     }
 
@@ -60,6 +67,13 @@ public class VendorServiceImpl implements VendorService{
         return true;
     }
 
-
-
+    @Override
+    public Vendor login(String userName, String password) {
+        Vendor ven = vendorRepository.findByUserName(userName.toLowerCase());
+        if(ven == null)
+            return null;
+        if(passwordEncoder.matches(password, ven.getPassword()))
+            return ven;
+        return null;
+    }
 }

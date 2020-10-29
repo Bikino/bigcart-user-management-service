@@ -15,4 +15,6 @@ public interface VendorService {
     Vendor update(long id, Vendor newVendor) throws IllegalAccessException;
 
     boolean deleteById(long id);
+
+    Vendor login(String userName, String password);
 }
