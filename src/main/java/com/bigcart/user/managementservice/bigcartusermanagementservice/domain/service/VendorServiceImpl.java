@@ -1,6 +1,5 @@
 package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.service;
 
-import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Buyer;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Vendor;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.repository.VendorRepository;
 import org.springframework.beans.factory.annotation.Autowired;

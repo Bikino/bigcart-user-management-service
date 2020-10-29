@@ -19,6 +19,8 @@ public class Vendor extends Person{
 
     private boolean isApproved;
 
+    private String companyName;
+
     public String getUserName() {
         return userName;
     }
@@ -50,4 +52,8 @@ public class Vendor extends Person{
     public void setApproved(boolean approved) {
         isApproved = approved;
     }
+
+    public String getCompanyName() { return companyName; }
+
+    public void setCompanyName(String companyName) { this.companyName = companyName; }
 }
