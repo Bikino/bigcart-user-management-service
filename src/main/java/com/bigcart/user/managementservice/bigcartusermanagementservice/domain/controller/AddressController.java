@@ -38,15 +38,15 @@ public class AddressController {
         return new ResponseEntity<Address>(Address, HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<Address> addAddress(@RequestBody Address address) {
+    @PostMapping(value = "/{personId}")
+    public ResponseEntity<Address> addAddress(@PathVariable long personId, @RequestBody Address address) {
 
         HttpHeaders headers = new HttpHeaders();
 
         if (address == null) {
             return new ResponseEntity<Address>(HttpStatus.BAD_REQUEST);
         }
-        AddressService.add(address);
+        AddressService.add(personId, address);
 
         return new ResponseEntity<Address>(address, headers, HttpStatus.CREATED);
 

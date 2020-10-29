@@ -2,6 +2,7 @@ package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.s
 
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Address;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.repository.AddressRepository;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,9 @@ public class AddressServiceImpl implements AddressService{
 
     @Autowired
     private AddressRepository addressRepository;
+
+    @Autowired
+    PersonRepository personRepository;
 
     @Override
     public List<Address> getAll(){
@@ -33,8 +37,10 @@ public class AddressServiceImpl implements AddressService{
     }
 
     @Override
-    public Address add(Address Address) {
-        return addressRepository.save(Address);
+    public Address add(long personId, Address address) {
+
+        address.setPerson(personRepository.findById(personId).get());
+        return addressRepository.save(address);
     }
 
     @Override

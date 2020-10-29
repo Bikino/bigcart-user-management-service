@@ -10,7 +10,7 @@ public interface AddressService {
 
     Address getById(long id);
 
-    Address add(Address Address);
+    Address add(long personId, Address Address);
 
     Address update(long id, Address newAddress) throws IllegalAccessException;
 
