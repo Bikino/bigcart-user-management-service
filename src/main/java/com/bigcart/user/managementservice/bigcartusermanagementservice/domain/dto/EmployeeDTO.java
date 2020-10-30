@@ -12,6 +12,8 @@ public class EmployeeDTO extends PersonDTO {
 
     private boolean isAdmin;
 
+    private double salary;
+
     public String getPayrollNumber() {
         return payrollNumber;
     }
@@ -35,4 +37,8 @@ public class EmployeeDTO extends PersonDTO {
     public void setAdmin(boolean admin) {
         isAdmin = admin;
     }
+
+    public double getSalary() { return salary; }
+
+    public void setSalary(double salary) { this.salary = salary; }
 }
