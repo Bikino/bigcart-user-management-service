@@ -1,5 +1,6 @@
 package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.service;
 
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Status;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Vendor;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.repository.VendorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +25,15 @@ public class VendorServiceImpl implements VendorService{
     public List<Vendor> getAll(){
 
         List<Vendor> list = new ArrayList<>();
-        vendorRepository.findAll().forEach(list::add);
+        vendorRepository.findAllByStatus(Status.Approved).forEach(list::add);
         return  list;
+    }
 
+    @Override
+    public List<Vendor> getAllPending() {
+        List<Vendor> list = new ArrayList<>();
+        vendorRepository.findAllByStatus(Status.Pending).forEach(list::add);
+        return  list;
     }
 
     @Override
@@ -64,6 +71,11 @@ public class VendorServiceImpl implements VendorService{
             return false;
         vendorRepository.deleteById(id);
         return true;
+    }
+
+    @Override
+    public boolean updateStatus(long id, boolean status) {
+        return vendorRepository.updateStatusById(id, status? Status.Approved : Status.Decline)>0;
     }
 
     @Override

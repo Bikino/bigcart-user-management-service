@@ -15,8 +15,6 @@ public class Employee extends Person{
 
     private String payrollNumber;
 
-    private boolean isApproved;
-
     private boolean isAdmin;
 
     private double salary;
@@ -43,14 +41,6 @@ public class Employee extends Person{
 
     public void setPayrollNumber(String payrollNumber) {
         this.payrollNumber = payrollNumber;
-    }
-
-    public boolean isApproved() {
-        return isApproved;
-    }
-
-    public void setApproved(boolean approved) {
-        isApproved = approved;
     }
 
     public boolean isAdmin() {

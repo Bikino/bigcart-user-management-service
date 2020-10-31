@@ -2,6 +2,7 @@ package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.s
 
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Buyer;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Employee;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Status;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.repository.BuyerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,6 +12,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 @Service
 public class BuyerServiceImpl implements BuyerService{
@@ -23,9 +25,8 @@ public class BuyerServiceImpl implements BuyerService{
 
     @Override
     public List<Buyer> getAll(){
-
         List<Buyer> list = new ArrayList<>();
-        buyerRepository.findAll().forEach(list::add);
+        buyerRepository.findAllByStatus(Status.Approved).forEach(list::add);
         return  list;
 
     }
@@ -41,6 +42,7 @@ public class BuyerServiceImpl implements BuyerService{
     public Buyer add(Buyer buyer) {
         buyer.setUserName(buyer.getUserName().toLowerCase());
         buyer.setPassword(passwordEncoder.encode(buyer.getPassword()));
+        buyer.setStatus(Status.Approved);
         return buyerRepository.save(buyer);
     }
 

@@ -8,11 +8,15 @@ public interface VendorService {
 
     List<Vendor> getAll();
 
+    List<Vendor> getAllPending();
+
     Vendor getById(long id);
 
     Vendor add(Vendor Vendor);
 
     Vendor update(long id, Vendor newVendor) throws IllegalAccessException;
+
+    boolean updateStatus(long id, boolean status);
 
     boolean deleteById(long id);
 

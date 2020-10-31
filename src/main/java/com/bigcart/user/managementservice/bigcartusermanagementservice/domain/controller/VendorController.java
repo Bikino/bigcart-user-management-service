@@ -21,19 +21,27 @@ public class VendorController {
     @Autowired
     VendorService vendorService;
 
-
-
     ModelMapper modelMapper = new ModelMapper();
+
     @GetMapping
     public ResponseEntity<List<VendorDTO>> getVendors() {
-        HttpHeaders headers = new HttpHeaders();
         List<Vendor> vendors = vendorService.getAll();
+        return getListResponseEntity(vendors);
+    }
+
+    @GetMapping(value = "/pending")
+    public ResponseEntity<List<VendorDTO>> getPendingVendors() {
+        List<Vendor> vendors = vendorService.getAllPending();
+        return getListResponseEntity(vendors);
+    }
+
+    private ResponseEntity<List<VendorDTO>> getListResponseEntity(List<Vendor> vendors) {
         if (vendors == null) {
             return new ResponseEntity<List<VendorDTO>>(HttpStatus.NOT_FOUND);
         }
         List<VendorDTO> res = new ArrayList<>();
         vendors.forEach(x-> res.add(modelMapper.map(x, VendorDTO.class)));
-        return new ResponseEntity<List<VendorDTO>>(res, headers, HttpStatus.OK);
+        return new ResponseEntity<List<VendorDTO>>(res, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
@@ -58,6 +66,13 @@ public class VendorController {
         vendorService.add(vendor);
 
         return new ResponseEntity<VendorDTO>(modelMapper.map(vendor, VendorDTO.class), headers, HttpStatus.CREATED);
+
+    }
+
+    @PutMapping(value = "/status/{id}")
+    public ResponseEntity updateVendorStatus(@PathVariable long id, @RequestBody boolean status)
+    {
+        return new ResponseEntity(vendorService.updateStatus(id, status)?HttpStatus.OK:HttpStatus.NOT_FOUND);
 
     }
 

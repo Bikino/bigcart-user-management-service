@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.QueryByExampleExecutor;
 // This will be AUTO IMPLEMENTED by Spring into a Bean called userRepository
 // CRUD refers Create, Read, Update, Delete
 
-public interface VendorRepository extends CrudRepository<Vendor, Long>, QueryByExampleExecutor<Vendor> {
+public interface VendorRepository extends PersonBaseRepository<Vendor>, QueryByExampleExecutor<Vendor> {
 
     public default Vendor findByUserName(String userName){
         Vendor vendor = new Vendor();

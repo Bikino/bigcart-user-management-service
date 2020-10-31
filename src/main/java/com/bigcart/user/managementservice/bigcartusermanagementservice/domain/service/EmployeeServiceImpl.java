@@ -1,6 +1,7 @@
 package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.service;
 
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Employee;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Status;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,6 +11,7 @@ import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService{
@@ -22,9 +24,8 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Override
     public List<Employee> getAll(){
-
         List<Employee> list = new ArrayList<>();
-        employeeRepository.findAll().forEach(list::add);
+        employeeRepository.findAllByStatus(Status.Approved).forEach(list::add);
         return  list;
 
     }
@@ -64,6 +65,11 @@ public class EmployeeServiceImpl implements EmployeeService{
             return false;
         employeeRepository.deleteById(id);
         return true;
+    }
+
+    @Override
+    public boolean updateStatus(long id, boolean status) {
+        return employeeRepository.updateStatusById(id, status? Status.Approved : Status.Decline)>0;
     }
 
     @Override

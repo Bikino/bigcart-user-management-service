@@ -1,6 +1,7 @@
 package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.service;
 
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Guest;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Status;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.repository.GuestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,8 +34,9 @@ public class GuestServiceImpl implements GuestService{
     }
 
     @Override
-    public Guest add(Guest Guest) {
-        return guestRepository.save(Guest);
+    public Guest add(Guest guest) {
+        guest.setStatus(Status.Approved);
+        return guestRepository.save(guest);
     }
 
     @Override

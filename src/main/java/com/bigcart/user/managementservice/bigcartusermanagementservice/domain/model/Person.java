@@ -29,6 +29,10 @@ public class Person {
   @OneToMany(mappedBy="person")
   private Set<Address> addresses;
 
+  @Enumerated(EnumType.ORDINAL)
+  @Column(columnDefinition = "integer default 0")
+  private Status status;
+
   public long getId() {
     return id;
   }
@@ -84,4 +88,8 @@ public class Person {
   public void setAddresses(Set<Address> addresses) {
     this.addresses = addresses;
   }
+
+  public Status getStatus() { return status; }
+
+  public void setStatus(Status status) { this.status = status; }
 }

@@ -17,8 +17,6 @@ public class Vendor extends Person{
     @Temporal(TemporalType.TIMESTAMP)
     private Date registrationDate;
 
-    private boolean isApproved;
-
     private String companyName;
 
     public String getUserName() {
@@ -43,14 +41,6 @@ public class Vendor extends Person{
 
     public void setRegistrationDate(Date registrationDate) {
         this.registrationDate = registrationDate;
-    }
-
-    public boolean isApproved() {
-        return isApproved;
-    }
-
-    public void setApproved(boolean approved) {
-        isApproved = approved;
     }
 
     public String getCompanyName() { return companyName; }
