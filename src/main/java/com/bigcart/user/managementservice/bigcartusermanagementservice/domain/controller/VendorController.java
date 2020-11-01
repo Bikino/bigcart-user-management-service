@@ -1,7 +1,9 @@
 package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.controller;
 
 
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.dto.BuyerDTO;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.dto.VendorDTO;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Buyer;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Vendor;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.service.VendorService;
 import org.modelmapper.ModelMapper;
@@ -96,5 +98,15 @@ public class VendorController {
     public ResponseEntity deleteVendor(@PathVariable long id) {
 
        return new ResponseEntity( vendorService.deleteById(id)? HttpStatus.OK : HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping(value = "/login")
+    public ResponseEntity<VendorDTO> login(@RequestParam(required = true) String userName, @RequestParam(required = true) String password)
+    {
+        Vendor ven = vendorService.login(userName.toLowerCase(), password);
+        if(ven == null)
+            return new ResponseEntity<VendorDTO>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<VendorDTO>(modelMapper.map(ven, VendorDTO.class), HttpStatus.OK);
+
     }
 }

@@ -85,7 +85,7 @@ public class BuyerController {
     }
 
     @GetMapping(value = "/login")
-    public ResponseEntity<BuyerDTO> login(@PathVariable String userName, @PathVariable String password)
+    public ResponseEntity<BuyerDTO> login(@RequestParam(required = true) String userName, @RequestParam(required = true) String password)
     {
         Buyer emp = buyerService.login(userName.toLowerCase(), password);
         if(emp == null)

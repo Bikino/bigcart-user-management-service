@@ -83,7 +83,7 @@ public class EmployeeController {
     }
 
     @GetMapping(value = "/login")
-    public ResponseEntity<EmployeeDTO> login(@PathVariable String userName, @PathVariable String password)
+    public ResponseEntity<EmployeeDTO> login(@RequestParam(required = true) String userName, @RequestParam(required = true) String password)
     {
         Employee emp = employeeService.login(userName.toLowerCase(), password);
         if(emp == null)

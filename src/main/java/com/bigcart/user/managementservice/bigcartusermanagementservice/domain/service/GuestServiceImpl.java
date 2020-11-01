@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +37,7 @@ public class GuestServiceImpl implements GuestService{
     @Override
     public Guest add(Guest guest) {
         guest.setStatus(Status.Approved);
+        guest.setCreationDateTime(new Date());
         return guestRepository.save(guest);
     }
 

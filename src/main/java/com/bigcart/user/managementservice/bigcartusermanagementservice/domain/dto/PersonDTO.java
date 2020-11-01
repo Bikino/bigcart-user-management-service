@@ -1,6 +1,7 @@
 package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.dto;
 
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Address;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Status;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -22,6 +23,8 @@ public class PersonDTO {
   private Date creationDateTime;
 
   private Set<Address> addresses;
+
+  private Status status;
 
   public long getId() {
     return id;
@@ -78,4 +81,8 @@ public class PersonDTO {
   public void setAddresses(Set<Address> addresses) {
     this.addresses = addresses;
   }
+
+  public Status getStatus() { return status; }
+
+  public void setStatus(Status status) { this.status = status; }
 }

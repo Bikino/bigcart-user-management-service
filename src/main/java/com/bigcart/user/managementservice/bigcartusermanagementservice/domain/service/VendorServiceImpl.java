@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,6 +48,7 @@ public class VendorServiceImpl implements VendorService{
     public Vendor add(Vendor vendor) {
         vendor.setUserName(vendor.getUserName().toLowerCase());
         vendor.setPassword(passwordEncoder.encode(vendor.getPassword()));
+        vendor.setCreationDateTime(new Date());
         return vendorRepository.save(vendor);
     }
 

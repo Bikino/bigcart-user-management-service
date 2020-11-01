@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.lang.reflect.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -41,6 +42,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     public Employee add(Employee employee) {
         employee.setUserName(employee.getUserName().toLowerCase());
         employee.setPassword(passwordEncoder.encode(employee.getPassword()));
+        employee.setCreationDateTime(new Date());
         return employeeRepository.save(employee);
     }
 

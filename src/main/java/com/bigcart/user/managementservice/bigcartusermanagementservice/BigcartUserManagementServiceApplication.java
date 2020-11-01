@@ -9,7 +9,6 @@ public class BigcartUserManagementServiceApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(BigcartUserManagementServiceApplication.class, args);
-        System.out.println(Status.Pending);
     }
 
 }

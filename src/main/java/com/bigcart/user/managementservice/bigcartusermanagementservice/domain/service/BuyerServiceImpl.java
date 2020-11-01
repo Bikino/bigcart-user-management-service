@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -43,6 +44,7 @@ public class BuyerServiceImpl implements BuyerService{
         buyer.setUserName(buyer.getUserName().toLowerCase());
         buyer.setPassword(passwordEncoder.encode(buyer.getPassword()));
         buyer.setStatus(Status.Approved);
+        buyer.setCreationDateTime(new Date());
         return buyerRepository.save(buyer);
     }
 

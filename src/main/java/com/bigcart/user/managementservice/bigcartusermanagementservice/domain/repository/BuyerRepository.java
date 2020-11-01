@@ -1,8 +1,11 @@
 package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.repository;
 
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Buyer;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Employee;
 import org.springframework.data.domain.Example;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.repository.query.QueryByExampleExecutor;
 
 
@@ -11,11 +14,6 @@ import org.springframework.data.repository.query.QueryByExampleExecutor;
 
 public interface BuyerRepository extends PersonBaseRepository<Buyer>, QueryByExampleExecutor<Buyer> {
 
-    public default Buyer findByUserName(String userName){
-        Buyer buyer = new Buyer();
-        buyer.setUserName(userName);
-        Example<Buyer> BuyerExample = Example.of(buyer);
-        return this.findOne(BuyerExample).get();
-    }
-
+    @Query("SELECT buyer from Buyer buyer where buyer.userName = :userName")
+    public Buyer findByUserName(@Param("userName")String userName);
 }

@@ -3,6 +3,7 @@ package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.r
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Employee;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Status;
 import org.springframework.data.domain.Example;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.repository.query.QueryByExampleExecutor;
@@ -12,10 +13,6 @@ import org.springframework.data.repository.query.QueryByExampleExecutor;
 
 public interface EmployeeRepository extends PersonBaseRepository<Employee>, QueryByExampleExecutor<Employee> {
 
-    public default Employee findByUserName(String userName){
-        Employee employee = new Employee();
-        employee.setUserName(userName);
-        Example<Employee> employeeExample = Example.of(employee);
-        return this.findOne(employeeExample).get();
-    }
+    @Query("SELECT emp from Employee emp where emp.userName = :userName")
+    public Employee findByUserName(@Param("userName") String userName);
 }
