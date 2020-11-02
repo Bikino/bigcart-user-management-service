@@ -30,8 +30,8 @@ public class Person {
   private Set<Address> addresses;
 
   @Enumerated(EnumType.ORDINAL)
-  @Column(columnDefinition = "integer default 0")
-  private Status status;
+  @Column(nullable = false, columnDefinition = "integer default 0")
+  private Status status = Status.Pending;
 
   public long getId() {
     return id;
