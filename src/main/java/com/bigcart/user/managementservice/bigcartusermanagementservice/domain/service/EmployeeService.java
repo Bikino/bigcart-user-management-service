@@ -1,6 +1,7 @@
 package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.service;
 
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Employee;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Vendor;
 
 import java.util.List;
 
@@ -19,4 +20,6 @@ public interface EmployeeService {
     boolean deleteById(long id);
 
     Employee login(String userName, String password);
+
+    List<Employee> searchByName(String name);
 }

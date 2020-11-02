@@ -15,5 +15,8 @@ import org.springframework.data.repository.query.QueryByExampleExecutor;
 public interface VendorRepository extends PersonBaseRepository<Vendor>, QueryByExampleExecutor<Vendor> {
 
     @Query("SELECT ven from Vendor ven where ven.userName = :userName")
-    public Vendor findByUserName(@Param("userName")String userName);
+    Vendor findByUserName(@Param("userName")String userName);
+
+    @Query("SELECT ven FROM Vendor ven where ven.firstName LIKE %:name% OR ven.lastName Like %:name%")
+    Iterable<Vendor> findByName(@Param("name") String name);
 }

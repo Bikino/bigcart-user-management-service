@@ -21,4 +21,6 @@ public interface VendorService {
     boolean deleteById(long id);
 
     Vendor login(String userName, String password);
+
+    List<Vendor> searchByName(String name);
 }

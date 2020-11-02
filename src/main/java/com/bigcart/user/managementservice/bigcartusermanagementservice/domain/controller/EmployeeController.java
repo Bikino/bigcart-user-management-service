@@ -1,8 +1,12 @@
 package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.controller;
 
 
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.dto.BuyerDTO;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.dto.EmployeeDTO;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.dto.VendorDTO;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Buyer;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Employee;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Vendor;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.service.EmployeeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +31,7 @@ public class EmployeeController {
         HttpHeaders headers = new HttpHeaders();
         List<Employee> employees = employeeService.getAll();
 
-        if (employees == null) {
-
-            return new ResponseEntity<List<EmployeeDTO>>(HttpStatus.NOT_FOUND);
-        }
-        List<EmployeeDTO> res = new ArrayList<>();
-        employees.forEach(x-> res.add(modelMapper.map(x, EmployeeDTO.class)));
-        return new ResponseEntity<List<EmployeeDTO>>(res, headers, HttpStatus.OK);
+        return getListResponseEntity(headers, employees);
     }
 
     @GetMapping(value = "/{id}")
@@ -41,9 +39,9 @@ public class EmployeeController {
 
         Employee employee = employeeService.getById(id);
         if (employee == null) {
-            return new ResponseEntity<EmployeeDTO>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<EmployeeDTO>(modelMapper.map(employee, EmployeeDTO.class), HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(employee, EmployeeDTO.class), HttpStatus.OK);
     }
 
     @PostMapping
@@ -52,12 +50,12 @@ public class EmployeeController {
         HttpHeaders headers = new HttpHeaders();
 
         if (employee == null) {
-            return new ResponseEntity<EmployeeDTO>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         employeeService.add(employee);
 
-        return new ResponseEntity<EmployeeDTO>(modelMapper.map(employee, EmployeeDTO.class), headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(modelMapper.map(employee, EmployeeDTO.class), headers, HttpStatus.CREATED);
 
     }
 
@@ -68,12 +66,12 @@ public class EmployeeController {
         Employee oldEmployee = employeeService.getById(id);
 
         if (oldEmployee == null) {
-            return new ResponseEntity<EmployeeDTO>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         Employee updatedEmployee = employeeService.update(id, modelMapper.map(employeeDTO, Employee.class));
 
-        return new ResponseEntity<EmployeeDTO>(modelMapper.map(updatedEmployee, EmployeeDTO.class), headers, HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(updatedEmployee, EmployeeDTO.class), headers, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
@@ -83,12 +81,30 @@ public class EmployeeController {
     }
 
     @GetMapping(value = "/login")
-    public ResponseEntity<EmployeeDTO> login(@RequestParam(required = true) String userName, @RequestParam(required = true) String password)
+    public ResponseEntity<EmployeeDTO> login(@RequestParam() String userName, @RequestParam() String password)
     {
         Employee emp = employeeService.login(userName.toLowerCase(), password);
         if(emp == null)
-            return new ResponseEntity<EmployeeDTO>(HttpStatus.NOT_FOUND);
-        return new ResponseEntity<EmployeeDTO>(modelMapper.map(emp, EmployeeDTO.class), HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(modelMapper.map(emp, EmployeeDTO.class), HttpStatus.OK);
 
+    }
+
+    @GetMapping(value = "/search")
+    public ResponseEntity<List<EmployeeDTO>> searchByName(@RequestParam() String name)
+    {
+        HttpHeaders headers = new HttpHeaders();
+        List<Employee> employees = employeeService.searchByName(name);
+        return getListResponseEntity(headers, employees);
+    }
+
+    private ResponseEntity<List<EmployeeDTO>> getListResponseEntity(HttpHeaders headers, List<Employee> employees) {
+        if (employees == null) {
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        List<EmployeeDTO> res = new ArrayList<>();
+        employees.forEach(x-> res.add(modelMapper.map(x, EmployeeDTO.class)));
+        return new ResponseEntity<>(res, headers, HttpStatus.OK);
     }
 }

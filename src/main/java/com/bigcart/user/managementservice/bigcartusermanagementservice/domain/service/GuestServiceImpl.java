@@ -2,6 +2,7 @@ package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.s
 
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Guest;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Status;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Vendor;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.repository.GuestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,7 @@ public class GuestServiceImpl implements GuestService{
     public Guest getById(long id)
     {
         Optional<Guest> temp = guestRepository.findById(id);
-        return temp.isPresent()? temp.get() : null;
+        return temp.orElse(null);
     }
 
     @Override
@@ -62,6 +63,13 @@ public class GuestServiceImpl implements GuestService{
             return false;
         guestRepository.deleteById(id);
         return true;
+    }
+
+    @Override
+    public List<Guest> searchByName(String name) {
+        List<Guest> list = new ArrayList<>();
+        guestRepository.findByName(name).forEach(list::add);
+        return list;
     }
 
 

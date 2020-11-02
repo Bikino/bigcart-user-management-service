@@ -39,11 +39,11 @@ public class VendorController {
 
     private ResponseEntity<List<VendorDTO>> getListResponseEntity(List<Vendor> vendors) {
         if (vendors == null) {
-            return new ResponseEntity<List<VendorDTO>>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         List<VendorDTO> res = new ArrayList<>();
         vendors.forEach(x-> res.add(modelMapper.map(x, VendorDTO.class)));
-        return new ResponseEntity<List<VendorDTO>>(res, HttpStatus.OK);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
@@ -52,9 +52,9 @@ public class VendorController {
         Vendor vendor = vendorService.getById(id);
         if (vendor == null) {
 
-            return new ResponseEntity<VendorDTO>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<VendorDTO>(modelMapper.map(vendor, VendorDTO.class), HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(vendor, VendorDTO.class), HttpStatus.OK);
     }
 
     @PostMapping
@@ -63,11 +63,11 @@ public class VendorController {
         HttpHeaders headers = new HttpHeaders();
 
         if (vendor == null) {
-            return new ResponseEntity<VendorDTO>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         vendorService.add(vendor);
 
-        return new ResponseEntity<VendorDTO>(modelMapper.map(vendor, VendorDTO.class), headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(modelMapper.map(vendor, VendorDTO.class), headers, HttpStatus.CREATED);
 
     }
 
@@ -86,12 +86,12 @@ public class VendorController {
 
         if (oldVendor == null) {
 
-            return new ResponseEntity<VendorDTO>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         Vendor updatedVendor = vendorService.update(id, modelMapper.map(vendorDTO, Vendor.class));
 
-        return new ResponseEntity<VendorDTO>(modelMapper.map(updatedVendor, VendorDTO.class), headers, HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(updatedVendor, VendorDTO.class), headers, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
@@ -101,12 +101,19 @@ public class VendorController {
     }
 
     @GetMapping(value = "/login")
-    public ResponseEntity<VendorDTO> login(@RequestParam(required = true) String userName, @RequestParam(required = true) String password)
+    public ResponseEntity<VendorDTO> login(@RequestParam() String userName, @RequestParam() String password)
     {
         Vendor ven = vendorService.login(userName.toLowerCase(), password);
         if(ven == null)
-            return new ResponseEntity<VendorDTO>(HttpStatus.NOT_FOUND);
-        return new ResponseEntity<VendorDTO>(modelMapper.map(ven, VendorDTO.class), HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(modelMapper.map(ven, VendorDTO.class), HttpStatus.OK);
 
+    }
+
+    @GetMapping(value = "/search")
+    public ResponseEntity<List<VendorDTO>> searchByName(@RequestParam() String name)
+    {
+        List<Vendor> list = vendorService.searchByName(name);
+        return getListResponseEntity(list);
     }
 }

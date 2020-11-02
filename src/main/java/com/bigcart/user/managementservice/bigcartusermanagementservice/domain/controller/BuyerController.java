@@ -28,12 +28,7 @@ public class BuyerController {
     public ResponseEntity<List<BuyerDTO>> getBuyers() {
         HttpHeaders headers = new HttpHeaders();
         List<Buyer> buyers = buyerService.getAll();
-        if (buyers == null) {
-            return new ResponseEntity<List<BuyerDTO>>(HttpStatus.NOT_FOUND);
-        }
-        List<BuyerDTO> res = new ArrayList<>();
-        buyers.forEach(x-> res.add(modelMapper.map(x, BuyerDTO.class)));
-        return new ResponseEntity<List<BuyerDTO>>(res, headers, HttpStatus.OK);
+        return getListResponseEntity(headers, buyers);
     }
 
     @GetMapping(value = "/{id}")
@@ -42,9 +37,9 @@ public class BuyerController {
         Buyer buyer = buyerService.getById(id);
         if (buyer == null) {
 
-            return new ResponseEntity<BuyerDTO>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<BuyerDTO>(modelMapper.map(buyer, BuyerDTO.class), HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(buyer, BuyerDTO.class), HttpStatus.OK);
     }
 
     @PostMapping
@@ -53,12 +48,12 @@ public class BuyerController {
         HttpHeaders headers = new HttpHeaders();
 
         if (buyer == null) {
-            return new ResponseEntity<BuyerDTO>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         buyerService.add(buyer);
 
-        return new ResponseEntity<BuyerDTO>(modelMapper.map(buyer, BuyerDTO.class), headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(modelMapper.map(buyer, BuyerDTO.class), headers, HttpStatus.CREATED);
 
     }
 
@@ -70,12 +65,12 @@ public class BuyerController {
 
         if (oldBuyer == null) {
 
-            return new ResponseEntity<BuyerDTO>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         Buyer updatedBuyer = buyerService.update(id, modelMapper.map(buyerDTO, Buyer.class));
 
-        return new ResponseEntity<BuyerDTO>(modelMapper.map(updatedBuyer, BuyerDTO.class), headers, HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(updatedBuyer, BuyerDTO.class), headers, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
@@ -85,12 +80,29 @@ public class BuyerController {
     }
 
     @GetMapping(value = "/login")
-    public ResponseEntity<BuyerDTO> login(@RequestParam(required = true) String userName, @RequestParam(required = true) String password)
+    public ResponseEntity<BuyerDTO> login(@RequestParam() String userName, @RequestParam() String password)
     {
         Buyer emp = buyerService.login(userName.toLowerCase(), password);
         if(emp == null)
-            return new ResponseEntity<BuyerDTO>(HttpStatus.NOT_FOUND);
-        return new ResponseEntity<BuyerDTO>(modelMapper.map(emp, BuyerDTO.class), HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(modelMapper.map(emp, BuyerDTO.class), HttpStatus.OK);
 
+    }
+
+    @GetMapping(value = "/search")
+    public ResponseEntity<List<BuyerDTO>> searchByName(@RequestParam() String name)
+    {
+        HttpHeaders headers = new HttpHeaders();
+        List<Buyer> buyers = buyerService.searchByName(name);
+        return getListResponseEntity(headers, buyers);
+    }
+
+    private ResponseEntity<List<BuyerDTO>> getListResponseEntity(HttpHeaders headers, List<Buyer> buyers) {
+        if (buyers == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        List<BuyerDTO> res = new ArrayList<>();
+        buyers.forEach(x-> res.add(modelMapper.map(x, BuyerDTO.class)));
+        return new ResponseEntity<>(res, headers, HttpStatus.OK);
     }
 }

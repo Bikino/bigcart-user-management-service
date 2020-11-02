@@ -14,10 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 // CRUD refers Create, Read, Update, Delete
 
 public interface PersonBaseRepository<T extends Person>  extends CrudRepository<T, Long> {
-    public Iterable<T> findAllByStatus(@Param("status") Status status);
+    Iterable<T> findAllByStatus(@Param("status") Status status);
 
     @Override
-    public default void deleteById(Long id)
+    default void deleteById(Long id)
     {
         updateStatusById(id, Status.Deleted);
     }
@@ -26,4 +26,5 @@ public interface PersonBaseRepository<T extends Person>  extends CrudRepository<
     @Modifying
     @Query("UPDATE Person c SET c.status = :status WHERE c.id = :personId")
     int updateStatusById(@Param("personId") Long id, @Param("status") Status status);
+
 }

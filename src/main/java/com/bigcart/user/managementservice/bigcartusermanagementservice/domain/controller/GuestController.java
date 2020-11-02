@@ -1,6 +1,9 @@
 package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.controller;
 
 
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.dto.BuyerDTO;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.dto.GuestDTO;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Buyer;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Guest;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.service.GuestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +25,9 @@ public class GuestController {
         HttpHeaders headers = new HttpHeaders();
         List<Guest> guests = guestService.getAll();
         if (guests == null) {
-            return new ResponseEntity<List<Guest>>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<List<Guest>>(guests, headers, HttpStatus.OK);
+        return new ResponseEntity<>(guests, headers, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
@@ -33,9 +36,9 @@ public class GuestController {
         Guest guest = guestService.getById(id);
         if (guest == null) {
 
-            return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<Guest>(guest, HttpStatus.OK);
+        return new ResponseEntity<>(guest, HttpStatus.OK);
     }
 
     @PostMapping
@@ -44,11 +47,11 @@ public class GuestController {
         HttpHeaders headers = new HttpHeaders();
 
         if (guest == null) {
-            return new ResponseEntity<Guest>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         guestService.add(guest);
 
-        return new ResponseEntity<Guest>(guest, headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(guest, headers, HttpStatus.CREATED);
 
     }
 
@@ -60,17 +63,26 @@ public class GuestController {
 
         if (oldGuest == null) {
 
-            return new ResponseEntity<Guest>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         Guest updatedGuest = guestService.update(id, guest);
 
-        return new ResponseEntity<Guest>(updatedGuest, headers, HttpStatus.OK);
+        return new ResponseEntity<>(updatedGuest, headers, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity deleteGuest(@PathVariable long id) {
 
        return new ResponseEntity( guestService.deleteById(id)? HttpStatus.OK : HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping(value = "/search")
+    public ResponseEntity<List<Guest>> searchByName(@RequestParam() String name)
+    {
+        HttpHeaders headers = new HttpHeaders();
+        List<Guest> guests = guestService.searchByName(name);
+        if (guests == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(guests, headers, HttpStatus.OK);
     }
 }

@@ -2,6 +2,7 @@ package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.s
 
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Employee;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Status;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Vendor;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,7 +36,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     public Employee getById(long id)
     {
         Optional<Employee> temp = employeeRepository.findById(id);
-        return temp.isPresent()? temp.get() : null;
+        return temp.orElse(null);
     }
 
     @Override
@@ -82,5 +83,12 @@ public class EmployeeServiceImpl implements EmployeeService{
         if(passwordEncoder.matches(password, emp.getPassword()))
             return emp;
         return null;
+    }
+
+    @Override
+    public List<Employee> searchByName(String name) {
+        List<Employee> list = new ArrayList<>();
+        employeeRepository.findByName(name).forEach(list::add);
+        return list;
     }
 }

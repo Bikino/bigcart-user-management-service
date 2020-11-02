@@ -36,7 +36,7 @@ public class BuyerServiceImpl implements BuyerService{
     public Buyer getById(long id)
     {
         Optional<Buyer> temp = buyerRepository.findById(id);
-        return temp.isPresent()? temp.get() : null;
+        return temp.orElse(null);
     }
 
     @Override
@@ -80,6 +80,14 @@ public class BuyerServiceImpl implements BuyerService{
             return buyer;
         return null;
     }
+
+    @Override
+    public List<Buyer> searchByName(String name) {
+        List<Buyer> list = new ArrayList<>();
+        buyerRepository.findByName(name).forEach(list::add);
+        return list;
+    }
+
 
 
 }

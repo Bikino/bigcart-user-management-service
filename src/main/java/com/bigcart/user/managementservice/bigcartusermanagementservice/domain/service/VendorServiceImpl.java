@@ -41,7 +41,7 @@ public class VendorServiceImpl implements VendorService{
     public Vendor getById(long id)
     {
         Optional<Vendor> temp = vendorRepository.findById(id);
-        return temp.isPresent()? temp.get() : null;
+        return temp.orElse(null);
     }
 
     @Override
@@ -88,5 +88,12 @@ public class VendorServiceImpl implements VendorService{
         if(passwordEncoder.matches(password, ven.getPassword()))
             return ven;
         return null;
+    }
+
+    @Override
+    public List<Vendor> searchByName(String name) {
+        List<Vendor> list = new ArrayList<>();
+        vendorRepository.findByName(name).forEach(list::add);
+        return list;
     }
 }

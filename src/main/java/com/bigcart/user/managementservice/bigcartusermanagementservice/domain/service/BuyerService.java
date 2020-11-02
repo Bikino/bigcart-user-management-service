@@ -1,6 +1,7 @@
 package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.service;
 
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Buyer;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Vendor;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface BuyerService {
     boolean deleteById(long id);
 
     Buyer login(String userName, String password);
+
+    List<Buyer> searchByName(String name);
 }
