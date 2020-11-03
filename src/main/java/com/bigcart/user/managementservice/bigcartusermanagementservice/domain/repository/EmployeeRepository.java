@@ -19,4 +19,7 @@ public interface EmployeeRepository extends PersonBaseRepository<Employee>, Quer
 
     @Query("SELECT emp FROM Employee emp where emp.firstName LIKE %:name% OR emp.lastName Like %:name% OR emp.userName Like %:name%")
     Iterable<Employee> findByName(@Param("name") String name);
+
+    @Query("select emp from Employee emp where emp.isAdmin = true")
+    Iterable<Employee> findAllAdmins();
 }

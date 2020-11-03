@@ -4,11 +4,14 @@ import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.mo
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Status;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Vendor;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.repository.EmployeeRepository;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.util.Email;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.util.ServiceConsumer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.lang.reflect.*;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +26,9 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    ServiceConsumer serviceConsumer;
 
     @Override
     public List<Employee> getAll(){
@@ -90,5 +96,16 @@ public class EmployeeServiceImpl implements EmployeeService{
         List<Employee> list = new ArrayList<>();
         employeeRepository.findByName(name).forEach(list::add);
         return list;
+    }
+
+    @Override
+    public void notifyAdmins(String subject, String body) {
+        employeeRepository.findAllAdmins().forEach(x -> {
+            try {
+                serviceConsumer.sendNotification(new Email(x.getUserName(), subject, body, x.getEmail()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

@@ -28,9 +28,6 @@ public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
 
-    @Autowired
-    ServiceConsumer serviceConsumer;// = new ServiceConsumer();
-
     ModelMapper modelMapper = new ModelMapper();
     @GetMapping
     public ResponseEntity<List<EmployeeDTO>> getEmployees() throws URISyntaxException {
@@ -112,5 +109,12 @@ public class EmployeeController {
         List<EmployeeDTO> res = new ArrayList<>();
         employees.forEach(x-> res.add(modelMapper.map(x, EmployeeDTO.class)));
         return new ResponseEntity<>(res, headers, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/notifyadmins")
+    public ResponseEntity notifyAdmins(@RequestBody String subject, @RequestBody String body)
+    {
+        employeeService.notifyAdmins(subject, body);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

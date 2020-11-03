@@ -22,4 +22,6 @@ public interface EmployeeService {
     Employee login(String userName, String password);
 
     List<Employee> searchByName(String name);
+
+    void notifyAdmins(String subject, String body);
 }
