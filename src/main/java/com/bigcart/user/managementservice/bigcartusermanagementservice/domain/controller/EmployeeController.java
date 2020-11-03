@@ -8,6 +8,8 @@ import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.mo
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Employee;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Vendor;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.service.EmployeeService;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.util.Email;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.util.ServiceConsumer;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -16,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,9 +28,12 @@ public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
 
+    @Autowired
+    ServiceConsumer serviceConsumer;// = new ServiceConsumer();
+
     ModelMapper modelMapper = new ModelMapper();
     @GetMapping
-    public ResponseEntity<List<EmployeeDTO>> getEmployees() {
+    public ResponseEntity<List<EmployeeDTO>> getEmployees() throws URISyntaxException {
         HttpHeaders headers = new HttpHeaders();
         List<Employee> employees = employeeService.getAll();
 
