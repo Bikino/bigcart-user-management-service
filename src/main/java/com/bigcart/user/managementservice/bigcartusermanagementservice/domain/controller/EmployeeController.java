@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/employee")
@@ -105,9 +106,9 @@ public class EmployeeController {
     }
 
     @GetMapping(value = "/notifyadmins")
-    public ResponseEntity notifyAdmins(@RequestBody String subject, @RequestBody String body)
+    public ResponseEntity notifyAdmins(@RequestBody Map<String, String> msg)
     {
-        employeeService.notifyAdmins(subject, body);
+        employeeService.notifyAdmins(msg.get("subject"), msg.get("body"));
         return new ResponseEntity(HttpStatus.OK);
     }
 }
