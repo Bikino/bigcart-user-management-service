@@ -118,7 +118,7 @@ public class VendorController {
     }
 
     @GetMapping(value = "/onetimepayment/{id}")
-    public ResponseEntity<VendorDTO> oneTimePayment(long id)
+    public ResponseEntity<VendorDTO> oneTimePayment(@PathVariable long id)
     {
         return new ResponseEntity<VendorDTO>(modelMapper.map(vendorService.oneTimePayment(id), VendorDTO.class), HttpStatus.OK);
     }
