@@ -105,7 +105,7 @@ public class EmployeeController {
         return new ResponseEntity<>(res, headers, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/notifyadmins")
+    @PostMapping(value = "/notifyadmins")
     public ResponseEntity notifyAdmins(@RequestBody MsgDTO msg)
     {
         employeeService.notifyAdmins(msg.getSubject(), msg.getBody());
