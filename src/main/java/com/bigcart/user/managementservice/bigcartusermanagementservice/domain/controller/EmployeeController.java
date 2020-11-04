@@ -2,6 +2,7 @@ package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.c
 
 
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.dto.EmployeeDTO;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.dto.MsgDTO;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Employee;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.service.EmployeeService;
 import org.modelmapper.ModelMapper;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/employee")
@@ -106,9 +106,9 @@ public class EmployeeController {
     }
 
     @GetMapping(value = "/notifyadmins")
-    public ResponseEntity notifyAdmins(@RequestBody Map<String, String> msg)
+    public ResponseEntity notifyAdmins(@RequestBody MsgDTO msg)
     {
-        employeeService.notifyAdmins(msg.get("subject"), msg.get("body"));
+        employeeService.notifyAdmins(msg.getSubject(), msg.getBody());
         return new ResponseEntity(HttpStatus.OK);
     }
 }
