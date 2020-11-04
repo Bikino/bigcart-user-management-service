@@ -12,6 +12,8 @@ public class VendorDTO extends PersonDTO {
 
     private String companyName;
 
+    private Double balance;
+
     public Date getRegistrationDate() {
         return registrationDate;
     }
@@ -23,4 +25,8 @@ public class VendorDTO extends PersonDTO {
     public String getCompanyName() { return companyName; }
 
     public void setCompanyName(String companyName) { this.companyName = companyName; }
+
+    public Double getBalance() { return balance; }
+
+    public void setBalance(Double balance) { this.balance = balance; }
 }

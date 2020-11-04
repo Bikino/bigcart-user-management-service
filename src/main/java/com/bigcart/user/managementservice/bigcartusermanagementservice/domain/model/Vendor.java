@@ -14,6 +14,8 @@ public class Vendor extends Person{
 
     private String password;
 
+    private Double balance;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date registrationDate;
 
@@ -46,4 +48,8 @@ public class Vendor extends Person{
     public String getCompanyName() { return companyName; }
 
     public void setCompanyName(String companyName) { this.companyName = companyName; }
+
+    public Double getBalance() { return balance; }
+
+    public void setBalance(Double balance) { this.balance = balance; }
 }

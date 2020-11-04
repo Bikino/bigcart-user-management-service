@@ -23,4 +23,6 @@ public interface VendorService {
     Vendor login(String userName, String password);
 
     List<Vendor> searchByName(String name);
+
+    Vendor oneTimePayment(long id);
 }

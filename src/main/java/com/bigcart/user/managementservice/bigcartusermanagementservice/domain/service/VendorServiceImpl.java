@@ -96,4 +96,12 @@ public class VendorServiceImpl implements VendorService{
         vendorRepository.findByName(name).forEach(list::add);
         return list;
     }
+
+    @Override
+    public Vendor oneTimePayment(long id) {
+        Vendor ven = getById(id);
+        ven.setBalance(25000.0);
+        vendorRepository.save(ven);
+        return ven;
+    }
 }
