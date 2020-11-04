@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
@@ -39,7 +40,7 @@ public class AddressController {
     }
 
     @PostMapping(value = "/{personId}")
-    public ResponseEntity<Address> addAddress(@PathVariable long personId, @RequestBody Address address) {
+    public ResponseEntity<Address> addAddress(@PathVariable long personId, @RequestBody Address address) throws URISyntaxException {
 
         HttpHeaders headers = new HttpHeaders();
 

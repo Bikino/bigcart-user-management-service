@@ -1,9 +1,6 @@
 package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.controller;
 
 
-import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.dto.BuyerDTO;
-import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.dto.GuestDTO;
-import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Buyer;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Guest;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.service.GuestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
@@ -42,7 +40,7 @@ public class GuestController {
     }
 
     @PostMapping
-    public ResponseEntity<Guest> addGuest(@RequestBody Guest guest) {
+    public ResponseEntity<Guest> addGuest(@RequestBody Guest guest) throws URISyntaxException {
 
         HttpHeaders headers = new HttpHeaders();
 
@@ -56,7 +54,7 @@ public class GuestController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Guest> editGuest(@PathVariable long id, @RequestBody Guest guest) throws IllegalAccessException {
+    public ResponseEntity<Guest> editGuest(@PathVariable long id, @RequestBody Guest guest) throws IllegalAccessException, URISyntaxException {
 
         HttpHeaders headers = new HttpHeaders();
         Guest oldGuest = guestService.getById(id);

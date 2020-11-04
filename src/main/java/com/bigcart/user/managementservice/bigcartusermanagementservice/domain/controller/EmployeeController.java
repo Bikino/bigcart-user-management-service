@@ -41,7 +41,7 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public ResponseEntity<EmployeeDTO> addEmployee(@RequestBody Employee employee) {
+    public ResponseEntity<EmployeeDTO> addEmployee(@RequestBody Employee employee) throws URISyntaxException {
 
         HttpHeaders headers = new HttpHeaders();
 
@@ -56,7 +56,7 @@ public class EmployeeController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<EmployeeDTO> editEmployee(@PathVariable long id, @RequestBody EmployeeDTO employeeDTO) throws IllegalAccessException {
+    public ResponseEntity<EmployeeDTO> editEmployee(@PathVariable long id, @RequestBody EmployeeDTO employeeDTO) throws IllegalAccessException, URISyntaxException {
 
         HttpHeaders headers = new HttpHeaders();
         Employee oldEmployee = employeeService.getById(id);

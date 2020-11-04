@@ -2,18 +2,16 @@ package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.c
 
 
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.dto.BuyerDTO;
-import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.dto.EmployeeDTO;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Buyer;
-import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Employee;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.service.BuyerService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +41,7 @@ public class BuyerController {
     }
 
     @PostMapping
-    public ResponseEntity<BuyerDTO> addBuyer(@RequestBody Buyer buyer) {
+    public ResponseEntity<BuyerDTO> addBuyer(@RequestBody Buyer buyer) throws URISyntaxException {
 
         HttpHeaders headers = new HttpHeaders();
 
@@ -58,7 +56,7 @@ public class BuyerController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<BuyerDTO> editBuyer(@PathVariable long id, @RequestBody BuyerDTO buyerDTO) throws IllegalAccessException {
+    public ResponseEntity<BuyerDTO> editBuyer(@PathVariable long id, @RequestBody BuyerDTO buyerDTO) throws IllegalAccessException, URISyntaxException {
 
         HttpHeaders headers = new HttpHeaders();
         Buyer oldBuyer = buyerService.getById(id);
