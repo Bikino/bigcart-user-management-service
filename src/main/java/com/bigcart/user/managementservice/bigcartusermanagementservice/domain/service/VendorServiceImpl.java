@@ -3,11 +3,13 @@ package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.s
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Status;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Vendor;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.repository.VendorRepository;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.util.Notifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +23,9 @@ public class VendorServiceImpl implements VendorService{
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    Notifier notifier;
 
     @Override
     public List<Vendor> getAll(){
@@ -45,15 +50,17 @@ public class VendorServiceImpl implements VendorService{
     }
 
     @Override
-    public Vendor add(Vendor vendor) {
+    public Vendor add(Vendor vendor) throws URISyntaxException {
         vendor.setUserName(vendor.getUserName().toLowerCase());
         vendor.setPassword(passwordEncoder.encode(vendor.getPassword()));
         vendor.setCreationDateTime(new Date());
-        return vendorRepository.save(vendor);
+        vendor = vendorRepository.save(vendor);
+        notifier.notifyNewAccount(vendor);
+        return vendor;
     }
 
     @Override
-    public Vendor update(long id, Vendor newVendor) throws IllegalAccessException {
+    public Vendor update(long id, Vendor newVendor) throws IllegalAccessException, URISyntaxException {
 
         Vendor oldVendor = getById(id);
 
@@ -63,7 +70,9 @@ public class VendorServiceImpl implements VendorService{
                 field.set(oldVendor, field.get(newVendor));
         }
 
-        return vendorRepository.save(oldVendor);
+        oldVendor = vendorRepository.save(oldVendor);
+        notifier.notifyDetailsEdited(oldVendor);
+        return oldVendor;
     }
 
     @Override
@@ -76,8 +85,10 @@ public class VendorServiceImpl implements VendorService{
     }
 
     @Override
-    public boolean updateStatus(long id, boolean status) {
-        return vendorRepository.updateStatusById(id, status? Status.Approved : Status.Decline)>0;
+    public boolean updateStatus(long id, boolean status) throws URISyntaxException {
+        boolean res = vendorRepository.updateStatusById(id, status? Status.Approved : Status.Decline)>0;
+        notifier.notifyStatusUpdate(vendorRepository.findById(id).get());
+        return res;
     }
 
     @Override
@@ -98,10 +109,11 @@ public class VendorServiceImpl implements VendorService{
     }
 
     @Override
-    public Vendor oneTimePayment(long id) {
+    public Vendor oneTimePayment(long id) throws URISyntaxException {
         Vendor ven = getById(id);
-        ven.setBalance(25000.0);
+        ven.setBalance(ven.getBalance() + 25000.0);
         vendorRepository.save(ven);
+        notifier.notifyBalanceChanged(ven);
         return ven;
     }
 }

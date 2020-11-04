@@ -1,19 +1,19 @@
 package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.service;
 
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Buyer;
-import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Employee;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Status;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.repository.BuyerRepository;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.util.Notifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 @Service
 public class BuyerServiceImpl implements BuyerService{
@@ -23,6 +23,9 @@ public class BuyerServiceImpl implements BuyerService{
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    Notifier notifier;
 
     @Override
     public List<Buyer> getAll(){
@@ -40,16 +43,18 @@ public class BuyerServiceImpl implements BuyerService{
     }
 
     @Override
-    public Buyer add(Buyer buyer) {
+    public Buyer add(Buyer buyer) throws URISyntaxException {
         buyer.setUserName(buyer.getUserName().toLowerCase());
         buyer.setPassword(passwordEncoder.encode(buyer.getPassword()));
         buyer.setStatus(Status.Approved);
         buyer.setCreationDateTime(new Date());
-        return buyerRepository.save(buyer);
+        buyer = buyerRepository.save(buyer);
+        notifier.notifyNewAccount(buyer);
+        return buyer;
     }
 
     @Override
-    public Buyer update(long id, Buyer newBuyer) throws IllegalAccessException {
+    public Buyer update(long id, Buyer newBuyer) throws IllegalAccessException, URISyntaxException {
 
         Buyer oldBuyer = getById(id);
 
@@ -59,7 +64,9 @@ public class BuyerServiceImpl implements BuyerService{
                 field.set(oldBuyer, field.get(newBuyer));
         }
 
-        return buyerRepository.save(oldBuyer);
+        oldBuyer = buyerRepository.save(oldBuyer);
+        notifier.notifyDetailsEdited(oldBuyer);
+        return oldBuyer;
     }
 
     @Override

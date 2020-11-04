@@ -2,6 +2,7 @@ package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.s
 
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Vendor;
 
+import java.net.URISyntaxException;
 import java.util.List;
 
 public interface VendorService {
@@ -12,11 +13,11 @@ public interface VendorService {
 
     Vendor getById(long id);
 
-    Vendor add(Vendor Vendor);
+    Vendor add(Vendor Vendor) throws URISyntaxException;
 
-    Vendor update(long id, Vendor newVendor) throws IllegalAccessException;
+    Vendor update(long id, Vendor newVendor) throws IllegalAccessException, URISyntaxException;
 
-    boolean updateStatus(long id, boolean status);
+    boolean updateStatus(long id, boolean status) throws URISyntaxException;
 
     boolean deleteById(long id);
 
@@ -24,5 +25,5 @@ public interface VendorService {
 
     List<Vendor> searchByName(String name);
 
-    Vendor oneTimePayment(long id);
+    Vendor oneTimePayment(long id) throws URISyntaxException;
 }

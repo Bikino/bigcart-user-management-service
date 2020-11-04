@@ -1,6 +1,6 @@
 package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.util;
 
-public class Email {
+public class Message {
 
     private String userName;
 
@@ -14,9 +14,9 @@ public class Email {
         return userName;
     }
 
-    private Email(){};
+    private Message(){};
 
-    public Email(String userName, String subject, String body, String toAddress)
+    public Message(String userName, String subject, String body, String toAddress)
     {
         this.userName = userName;
         this.body = body;

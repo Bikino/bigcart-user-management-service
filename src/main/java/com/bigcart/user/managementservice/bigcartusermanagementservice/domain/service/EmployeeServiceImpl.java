@@ -2,21 +2,20 @@ package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.s
 
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Employee;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Status;
-import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Vendor;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.repository.EmployeeRepository;
-import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.util.Email;
-import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.util.ServiceConsumer;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.util.Notifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.lang.reflect.*;
 
+import java.lang.reflect.Field;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService{
@@ -28,7 +27,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    ServiceConsumer serviceConsumer;
+    Notifier notifier;
 
     @Override
     public List<Employee> getAll(){
@@ -46,15 +45,17 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
-    public Employee add(Employee employee) {
+    public Employee add(Employee employee) throws URISyntaxException {
         employee.setUserName(employee.getUserName().toLowerCase());
         employee.setPassword(passwordEncoder.encode(employee.getPassword()));
         employee.setCreationDateTime(new Date());
-        return employeeRepository.save(employee);
+        employee =  employeeRepository.save(employee);
+        notifier.notifyNewAccount(employee);
+        return employee;
     }
 
     @Override
-    public Employee update(long id, Employee newEmployee) throws IllegalAccessException {
+    public Employee update(long id, Employee newEmployee) throws IllegalAccessException, URISyntaxException {
 
         Employee oldEmployee = getById(id);
 
@@ -63,7 +64,8 @@ public class EmployeeServiceImpl implements EmployeeService{
             if(!field.get(oldEmployee).equals(field.get(newEmployee)))
                 field.set(oldEmployee, field.get(newEmployee));
         }
-
+        oldEmployee = employeeRepository.save(oldEmployee);
+        notifier.notifyDetailsEdited(oldEmployee);
         return employeeRepository.save(oldEmployee);
     }
 
@@ -77,8 +79,10 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
-    public boolean updateStatus(long id, boolean status) {
-        return employeeRepository.updateStatusById(id, status? Status.Approved : Status.Decline)>0;
+    public boolean updateStatus(long id, boolean status) throws URISyntaxException {
+        boolean res = employeeRepository.updateStatusById(id, status? Status.Approved : Status.Decline)>0;
+        notifier.notifyStatusUpdate(employeeRepository.findById(id).get());
+        return res;
     }
 
     @Override
@@ -100,12 +104,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Override
     public void notifyAdmins(String subject, String body) {
-        employeeRepository.findAllAdmins().forEach(x -> {
-            try {
-                serviceConsumer.sendNotification(new Email(x.getUserName(), subject, body, x.getEmail()));
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
-        });
+        List admins = StreamSupport.stream(employeeRepository.findAllAdmins().spliterator(), false).collect(Collectors.toList());
+        notifier.notifyAdmins(admins, subject, body);
     }
 }

@@ -2,12 +2,13 @@ package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.s
 
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Guest;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Status;
-import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Vendor;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.repository.GuestRepository;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.util.Notifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +19,9 @@ public class GuestServiceImpl implements GuestService{
 
     @Autowired
     private GuestRepository guestRepository;
+
+    @Autowired
+    Notifier notifier;
 
     @Override
     public List<Guest> getAll(){
@@ -36,14 +40,16 @@ public class GuestServiceImpl implements GuestService{
     }
 
     @Override
-    public Guest add(Guest guest) {
+    public Guest add(Guest guest) throws URISyntaxException {
         guest.setStatus(Status.Approved);
         guest.setCreationDateTime(new Date());
-        return guestRepository.save(guest);
+        guest = guestRepository.save(guest);
+        notifier.notifyNewAccount(guest);;
+        return guest;
     }
 
     @Override
-    public Guest update(long id, Guest newGuest) throws IllegalAccessException {
+    public Guest update(long id, Guest newGuest) throws IllegalAccessException, URISyntaxException {
 
         Guest oldGuest = getById(id);
 
@@ -53,7 +59,9 @@ public class GuestServiceImpl implements GuestService{
                 field.set(oldGuest, field.get(newGuest));
         }
 
-        return guestRepository.save(oldGuest);
+        oldGuest = guestRepository.save(oldGuest);
+        notifier.notifyDetailsEdited(oldGuest);
+        return oldGuest;
     }
 
     @Override

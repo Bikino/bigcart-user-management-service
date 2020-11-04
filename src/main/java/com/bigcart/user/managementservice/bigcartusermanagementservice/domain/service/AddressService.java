@@ -2,6 +2,7 @@ package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.s
 
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Address;
 
+import java.net.URISyntaxException;
 import java.util.List;
 
 public interface AddressService {
@@ -10,7 +11,7 @@ public interface AddressService {
 
     Address getById(long id);
 
-    Address add(long personId, Address Address);
+    Address add(long personId, Address Address) throws URISyntaxException;
 
     Address update(long id, Address newAddress) throws IllegalAccessException;
 

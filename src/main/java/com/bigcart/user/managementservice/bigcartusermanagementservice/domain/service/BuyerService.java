@@ -3,6 +3,7 @@ package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.s
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Buyer;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Vendor;
 
+import java.net.URISyntaxException;
 import java.util.List;
 
 public interface BuyerService {
@@ -11,9 +12,9 @@ public interface BuyerService {
 
     Buyer getById(long id);
 
-    Buyer add(Buyer Buyer);
+    Buyer add(Buyer Buyer) throws URISyntaxException;
 
-    Buyer update(long id, Buyer newBuyer) throws IllegalAccessException;
+    Buyer update(long id, Buyer newBuyer) throws IllegalAccessException, URISyntaxException;
 
     boolean deleteById(long id);
 
