@@ -1,10 +1,33 @@
 package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.dto;
 
-import org.hibernate.annotations.DynamicUpdate;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Address;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Status;
 
-import javax.persistence.Entity;
+import java.util.Date;
+import java.util.Set;
 
 public class EmployeeDTO extends PersonDTO {
+
+    public EmployeeDTO()
+    {
+
+    }
+
+    public EmployeeDTO(String payrollNumber, boolean isAdmin, double salary, long id, String firstName, String lastName, String email, String phone, Date creationDateTime, Set<Address> addresses, Status status) {
+        //super(id, firstName, lastName, email, phone, creationDateTime, addresses, status);
+        this.payrollNumber = payrollNumber;
+        this.isAdmin = isAdmin;
+        this.salary = salary;
+        this.setId(id);
+        this.setFirstName(firstName);
+        this.setLastName(lastName);
+        this.setEmail(email);
+        this.setPhone(phone);
+        this.setCreationDateTime(creationDateTime);
+        this.setAddresses(addresses);
+        this.setStatus(status);
+
+    }
 
     private String payrollNumber;
 

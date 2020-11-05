@@ -2,14 +2,13 @@ package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.d
 
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Address;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Status;
-import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
 
-public class PersonDTO {
+public class PersonDTO implements Serializable {
   private long id;
 
   private String firstName;
@@ -26,11 +25,27 @@ public class PersonDTO {
 
   private Status status;
 
+  public PersonDTO()
+  {
+
+  }
+
+  public PersonDTO(long id, String firstName, String lastName, String email, String phone, Date creationDateTime, Set<Address> addresses, Status status) {
+    this.id = id;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.phone = phone;
+    this.creationDateTime = creationDateTime;
+    this.addresses = addresses;
+    this.status = status;
+  }
+
   public long getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  public void setId(Long id) {
     this.id = id;
   }
 

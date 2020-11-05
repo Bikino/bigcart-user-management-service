@@ -1,6 +1,7 @@
 package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.controller;
 
 
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.dto.LoginDTO;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.dto.VendorDTO;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Vendor;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.service.VendorService;
@@ -98,9 +99,9 @@ public class VendorController {
     }
 
     @GetMapping(value = "/login")
-    public ResponseEntity<VendorDTO> login(@RequestParam() String userName, @RequestParam() String password)
+    public ResponseEntity<VendorDTO> login(@RequestBody LoginDTO loginDTO)
     {
-        Vendor ven = vendorService.login(userName.toLowerCase(), password);
+        Vendor ven = vendorService.login(loginDTO.getUserName().toLowerCase(), loginDTO.getPassword());
         if(ven == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(modelMapper.map(ven, VendorDTO.class), HttpStatus.OK);

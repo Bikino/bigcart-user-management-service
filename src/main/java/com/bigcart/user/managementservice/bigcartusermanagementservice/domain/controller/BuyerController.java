@@ -2,6 +2,7 @@ package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.c
 
 
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.dto.BuyerDTO;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.dto.LoginDTO;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Buyer;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.service.BuyerService;
 import org.modelmapper.ModelMapper;
@@ -78,9 +79,9 @@ public class BuyerController {
     }
 
     @GetMapping(value = "/login")
-    public ResponseEntity<BuyerDTO> login(@RequestParam() String userName, @RequestParam() String password)
+    public ResponseEntity<BuyerDTO> login(@RequestBody LoginDTO loginDTO)
     {
-        Buyer emp = buyerService.login(userName.toLowerCase(), password);
+        Buyer emp = buyerService.login(loginDTO.getUserName().toLowerCase(), loginDTO.getPassword());
         if(emp == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(modelMapper.map(emp, BuyerDTO.class), HttpStatus.OK);

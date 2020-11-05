@@ -2,6 +2,7 @@ package com.bigcart.user.managementservice.bigcartusermanagementservice.domain.c
 
 
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.dto.EmployeeDTO;
+import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.dto.LoginDTO;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.dto.MsgDTO;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.model.Employee;
 import com.bigcart.user.managementservice.bigcartusermanagementservice.domain.service.EmployeeService;
@@ -77,10 +78,10 @@ public class EmployeeController {
        return new ResponseEntity( employeeService.deleteById(id)? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping(value = "/login")
-    public ResponseEntity<EmployeeDTO> login(@RequestParam() String userName, @RequestParam() String password)
+    @PostMapping(value = "/login")
+    public ResponseEntity login(@RequestBody LoginDTO loginDTO)
     {
-        Employee emp = employeeService.login(userName.toLowerCase(), password);
+        Employee emp = employeeService.login(loginDTO.getUserName().toLowerCase(), loginDTO.getPassword());
         if(emp == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(modelMapper.map(emp, EmployeeDTO.class), HttpStatus.OK);
